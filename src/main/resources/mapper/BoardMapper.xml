@@ -10,17 +10,101 @@
 	      FROM            lc_board
 	   </select>
 <!-- 게시글 등록 -->
-	 <insert id="insertBoard" parameterType="Board">
-      INSERT INTO lc_board (
-         b_title,
-         b_content,
-         b_writer,
-         b_datetime
-      ) VALUES (
-         #{bTitle},
-         #{bContent},
-         #{bWriter},
-         now()
-      )
+	<insert id="insertBoard" parameterType="Board">
+		INSERT INTO lc_board (
+	    	b_title,
+	        b_content,
+	        b_writer,
+	        b_datetime,
+	        b_view,
+	        b_order,
+	        b_depth
+		) VALUES (
+	        #{bTitle},
+	        #{bContent},
+	        #{bWriter},
+	        now(),
+	        0,
+	        1,
+	        0
+	    );
+	    
+	    UPDATE	lc_board
+		SET		b_group = last_insert_id()
+		WHERE	b_id = last_insert_id()
+   </insert>
+<!-- 게시글 등록하고 group 정리 -->
+	<update id="groupUpdate" parameterType="int">
+		UPDATE	lc_board
+		SET		b_group = #{bId}
+		WHERE	b_id = #{bId}
+	</update> 
+<!-- 게시글 상세페이지 -->
+	<select id="detailBoard" parameterType="Integer" resultType="Board">
+		SELECT b_id as bId,
+				                 b_title as bTitle,
+				                 b_content as bContent,
+				                 b_writer as bWriter,
+				                 b_datetime as bDateTime
+		FROM lc_board 
+		WHERE b_id = #{bId}
+	</select>
+<!-- 게시글 수정하기 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE	lc_board
+		SET	b_title = #{bTitle},
+			b_content = #{bContent},
+			b_datetime = now()
+		WHERE	b_id = #{bId}
+	</update>
+<!-- 게시글 선택 -->
+	<select id="getBoard" parameterType="Integer" resultType="Board">
+		SELECT b_id as bId,
+				                 b_title as bTitle,
+				                 b_content as bContent,
+				                 b_writer as bWriter,
+				                 b_datetime as bDateTime,
+				                 b_view as bView 
+		FROM lc_board 
+		WHERE b_id = #{bId}
+	</select>
+<!-- 게시글 클릭수 -->
+	<update id="viewsBoard" parameterType="Integer">
+		UPDATE	lc_board
+		SET		b_view = b_view +1
+		WHERE	b_id = #{bId}
+	</update>
+<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="Integer">
+		DELETE	
+		FROM	lc_board
+		WHERE	b_id = #{bId}
+	</delete>
+<!-- 게시 답글 등록 -->
+	<insert id="reBoard" parameterType="Board">
+		UPDATE lc_board
+    	SET b_order = b_order +1
+    	WHERE b_group = #{bGroup}
+    	AND b_order > #{bOrder};
+	    
+	    INSERT INTO lc_board (
+	        b_title,
+	        b_content,
+	        b_writer,
+	        b_datetime,
+	        b_view,
+	        b_order,
+	        b_depth,
+	        b_group
+	    ) VALUES (
+	        #{bTitle},
+	        #{bContent},
+	        #{bWriter},
+	        now(),
+	        0,
+	        #{bOrder} + 1,
+	        #{bDepth} + 1,
+	        #{bGroup}
+	    )
    </insert>
 </mapper>

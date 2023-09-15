@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,20 +68,23 @@
 		<col width="50px">
 		<col width="150px">
 		<col width="200px">
+		<col width="50px">
 		<col width="100px">
 		<col width="100px">
       	<tr>
       		<td style="background-color:#eeeeee; text-align:center;">번호</td>
       		<td style="background-color:#eeeeee; text-align:center;">제목</td>
       		<td style="background-color:#eeeeee; text-align:center;">내용</td>
+      		<td style="background-color:#eeeeee; text-align:center;">조회수</td>
       		<td style="background-color:#eeeeee; text-align:center;">작성자</td>
       		<td style="background-color:#eeeeee; text-align:center;">날짜</td>
       	</tr>
       	<c:forEach var="list" items="${list }">
 	      	<tr>
-	      		<td>${list.bId }</td>
+	      		<td><a href="/detail?bId=${list.bId }">${list.bId}</a></td>
 	      		<td>${list.bTitle }</td>
 	      		<td>${list.bContent }</td>
+	      		<td>${list.bView }</td>
 	      		<td>${list.bWriter }</td>
 	      		<td>${list.bDateTime }</td>
 	      	</tr>

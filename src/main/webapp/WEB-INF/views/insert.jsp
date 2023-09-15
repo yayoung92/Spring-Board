@@ -13,7 +13,6 @@
 	<sec:authorize access="isAuthenticated()">  
 	<form action="/insertBoard" method="post">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }">
-<!--  		<input type="hidden" name="bWriter" value="${user}"> -->
 		<table>
 			<tr>
 				<td>제목 </td>
@@ -27,10 +26,11 @@
 		 	<tr>
 		 		<sec:authentication property="principal" var="principal"/>
 		 		<td>작성자 : </td>
-				<td><input type="text" name="bWriter" value=${principal.username} readonly></td>
+				<td><input type="hidden" name="bWriter" value=${principal.username} readonly>${principal.username}</td>
 			</tr>
 		</table>
 		<button type="submit">작성완료</button>
+		<a href="/list"><input type="button" value="취소"></a>
 	</form>
 	</sec:authorize>
 </body>

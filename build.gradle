@@ -4,7 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 }
 
-group = 'com.lcomputerstudyy'
+group = 'com.lcomputerstudyyy'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -36,6 +36,7 @@ dependencies {
 	
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'javax.servlet:jstl:1.2'
+    compileOnly "org.springframework.boot:spring-boot-devtools"
 }
 
 test {

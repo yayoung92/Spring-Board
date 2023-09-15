@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>게시글 작성완료</h2>
+	<h1>수정 완료</h1>
 	<a href="/list">돌아가기</a>
 </body>
 </html>

@@ -70,15 +70,6 @@ public class Controller {
 	public String beforeLogin(Model model) {
 		return "/login";
 	}
-//	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//	public String login(@RequestParam("username") String username, 
-//	                    @RequestParam("password") String password,
-//	                    HttpSession session) {
-//
-//	        session.setAttribute("user", username);
-//	        return "/login"; 
-//	}
-
 	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value="/admin")
 	public String admin(Model model) {
@@ -98,9 +89,7 @@ public class Controller {
 		return "/insert";
 	}
 	@RequestMapping(value="/insertBoard")
-	public String insertBoard(Board board){
-	//	String userId = (String) session.getAttribute("user");
-	//	board.setbWriter(userId);
+	public String insertBoard(Board board) {
 		boardservice.insertBoard(board);
 		return "/insert-result";
 	}
@@ -109,6 +98,43 @@ public class Controller {
 		List<Board> list = boardservice.selectBoardList();
 		model.addAttribute("list", list);
 		return "/list";
+	}
+	@RequestMapping("/detail")
+	public String detailBoard(@RequestParam("bId") int bId, Model model) {
+		boardservice.viewsBoard(bId);
+		Board board = boardservice.detailBoard(bId);
+		
+		model.addAttribute("board", board);
+		
+		return "/detail";
+	}
+	@RequestMapping("/update-view")
+	public String getBoard(@RequestParam("bId") int bId, Model model) {
+		Board board = boardservice.getBoard(bId);
+		model.addAttribute("board", board);
+		return "/update";
+	}
+	@RequestMapping("/updateBoard")
+	public String updateBoard(Board board) {
+		boardservice.updateBoard(board);
+		return "/update-result";
+	}
+	@RequestMapping("/delete")
+	public String deleteBoard(@RequestParam("bId") int bId, Model model) {
+		boardservice.deleteBoard(bId);
+		return "/delete";
+	}
+	@RequestMapping("/reply-view")
+	public String reply(@RequestParam("bId") int bId, Model model) {
+		model.addAttribute("bId", bId);
+		return "/reply";
+	}
+	@RequestMapping("/reBoard")
+	public String reBoard(@RequestParam("bId") int bId, Board board) {
+		Board board1 = boardservice.getBoard(bId);
+		board.setbGroup(board1.getbId());
+		boardservice.reBoard(board);
+		return "/insert-result";
 	}
 	
 }

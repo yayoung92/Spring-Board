@@ -18,7 +18,35 @@ public class BoardServiceImpl implements BoardService {
 		boardmapper.insertBoard(board);
 	}
 	@Override
-	public List<Board> getBoards() {
-		return boardmapper.getBoards();
+	public Board detailBoard(int bId) {
+		return boardmapper.detailBoard(bId);
+	}
+	@Override
+	public void deleteBoard(int bId) {
+		boardmapper.deleteBoard(bId);
+	}
+	@Override
+	public void viewsBoard(int bId) {
+		boardmapper.viewsBoard(bId);
+	}
+	@Override
+	public void updateBoard(Board board) {
+		boardmapper.updateBoard(board);
+	}
+	@Override
+	public Board getBoard(int bId) {
+		return boardmapper.getBoard(bId);
+	}
+	@Override
+	public void groupUpdate(int bId) {
+		boardmapper.groupUpdate(bId);
+	}
+	@Override
+	public void reBoard(Board board) {
+		boardmapper.reBoard(board);
+	}
+	@Override
+	public int getB(int bId) {
+		return boardmapper.getB(bId);
 	}
 }

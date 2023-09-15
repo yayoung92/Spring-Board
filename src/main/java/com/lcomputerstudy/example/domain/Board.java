@@ -7,8 +7,43 @@ public class Board {
 	private String bWriter;
 	private String bDateTime;
 	private String uId;
+	private String bView;
+	private int bOrder;
+	private int bGroup;
+	private int bDepth;
+	private int bNew;
 	private User user;
 	
+	public int getbNew() {
+		return bNew;
+	}
+	public void setbNew(int bNew) {
+		this.bNew = bNew;
+	}
+	public int getbOrder() {
+		return bOrder;
+	}
+	public void setbOrder(int bOrder) {
+		this.bOrder = bOrder;
+	}
+	public int getbGroup() {
+		return bGroup;
+	}
+	public void setbGroup(int bGroup) {
+		this.bGroup = bGroup;
+	}
+	public int getbDepth() {
+		return bDepth;
+	}
+	public void setbDepth(int bDepth) {
+		this.bDepth = bDepth;
+	}
+	public String getbView() {
+		return bView;
+	}
+	public void setbView(String bView) {
+		this.bView = bView;
+	}
 	public User getUser() {
 		return user;
 	}
