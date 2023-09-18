@@ -2,8 +2,6 @@ package com.lcomputerstudy.example.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +12,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lcomputerstudy.example.domain.Board;
 import com.lcomputerstudy.example.domain.User;
+import com.lcomputerstudy.example.domain.Comment;
 import com.lcomputerstudy.example.service.BoardService;
 import com.lcomputerstudy.example.service.UserService;
+import com.lcomputerstudy.example.service.CommentService;
 
 @org.springframework.stereotype.Controller
 public class Controller {
@@ -30,6 +28,7 @@ public class Controller {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired UserService userservice;
 	@Autowired BoardService boardservice;
+	@Autowired CommentService commentservice;
 	@Autowired PasswordEncoder passwordEncoder;
 	
 	/*public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
@@ -91,6 +90,8 @@ public class Controller {
 	@RequestMapping(value="/insertBoard")
 	public String insertBoard(Board board) {
 		boardservice.insertBoard(board);
+		int bId = board.getbId();
+		boardservice.groupUpdate(bId);
 		return "/insert-result";
 	}
 	@RequestMapping("/list")
@@ -103,9 +104,9 @@ public class Controller {
 	public String detailBoard(@RequestParam("bId") int bId, Model model) {
 		boardservice.viewsBoard(bId);
 		Board board = boardservice.detailBoard(bId);
-		
+		List<Comment> comment = commentservice.CommentList(bId);
 		model.addAttribute("board", board);
-		
+		model.addAttribute("comment", comment);
 		return "/detail";
 	}
 	@RequestMapping("/update-view")
@@ -129,12 +130,55 @@ public class Controller {
 		model.addAttribute("bId", bId);
 		return "/reply";
 	}
-	@RequestMapping("/reBoard")
+	@RequestMapping("reBoard")
 	public String reBoard(@RequestParam("bId") int bId, Board board) {
 		Board board1 = boardservice.getBoard(bId);
-		board.setbGroup(board1.getbId());
+		board.setbGroup(board1.getbGroup());
+		board.setbOrder(board1.getbOrder());
+		board.setbDepth(board1.getbDepth());
+		boardservice.reGroupUpdate(board);
 		boardservice.reBoard(board);
 		return "/insert-result";
 	}
-	
+	@RequestMapping("/insertComment")
+	public String insertComment(@RequestParam("bId") int bId, Comment comment) {
+		commentservice.insertComment(comment);
+		int cId = comment.getcId();
+		commentservice.groupCupdate(cId);
+		return "redirect:/detail?bId=" + bId;
+	}
+	@RequestMapping("deleteComment")
+	public String deleteComment(@RequestParam("cId") int cId, @RequestParam("bId") int bId, Model model) {
+		commentservice.deleteComment(cId);
+		return "redirect:/detail?bId=" + bId;
+	}
+	@RequestMapping("/aj-comment-reReply")
+	public String reComment(@RequestParam("cId") int cId, @RequestParam("bId") int bId, Comment comment, Model model) {
+		Comment comment1 = commentservice.getComment(cId);
+		comment.setcGroup(comment1.getcGroup());
+		comment.setcOrder(comment1.getcOrder());
+		comment.setcDepth(comment1.getcDepth());
+		commentservice.reCCroupUpdate(comment);
+		commentservice.reComment(comment);
+		
+		List<Comment> comment11 = commentservice.CommentList(bId);
+		model.addAttribute("comment", comment11);
+		return "/c_list";
+	}
+	@RequestMapping("/aj-comment-reDelete")
+	public String deleteReComment(@RequestParam("cId") int cId, @RequestParam("bId") int bId, Model model) {
+		commentservice.deleteComment(cId);
+		
+		List<Comment> comment11 = commentservice.CommentList(bId);
+		model.addAttribute("comment", comment11);
+		return "/c_list";
+	}
+	@RequestMapping("/aj-comment-reUpdate")
+	public String updateReComment(@RequestParam("bId") int bId, Comment comment, Model model) {
+		commentservice.updateComment(comment);
+		
+		List<Comment> comment11 = commentservice.CommentList(bId);
+		model.addAttribute("comment", comment11);
+		return "/c_list";
+	}
 }

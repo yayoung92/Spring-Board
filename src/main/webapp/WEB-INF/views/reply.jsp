@@ -14,7 +14,6 @@
 	<form action="reBoard" name="board" method="post">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }">
 		<input type="hidden" name="bId" value="${bId}">
-		<input type="hidden" name="bGroup" value="${board.bGroup}">
 		<table>
 			<tr>
 				<td>제목 </td>

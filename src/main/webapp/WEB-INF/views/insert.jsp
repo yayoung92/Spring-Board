@@ -26,7 +26,7 @@
 		 	<tr>
 		 		<sec:authentication property="principal" var="principal"/>
 		 		<td>작성자 : </td>
-				<td><input type="hidden" name="bWriter" value=${principal.username} readonly>${principal.username}</td>
+				<td><input type="hidden" name="bWriter" value="${principal.username}" readonly>${principal.username}</td>
 			</tr>
 		</table>
 		<button type="submit">작성완료</button>

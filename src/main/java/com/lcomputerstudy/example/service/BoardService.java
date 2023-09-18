@@ -19,8 +19,8 @@ public interface BoardService {
 	public Board getBoard(int bId);
 	//group update
 	public void groupUpdate(int bId);
-	//답글
+	//답글 작성
 	public void reBoard(Board board);
-	//답글 선택?
-	public int getB(int bId);
+	//답글 group update
+	public void reGroupUpdate(Board board);
 }

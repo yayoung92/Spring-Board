@@ -46,7 +46,7 @@ public class BoardServiceImpl implements BoardService {
 		boardmapper.reBoard(board);
 	}
 	@Override
-	public int getB(int bId) {
-		return boardmapper.getB(bId);
+	public void reGroupUpdate(Board board) {
+		boardmapper.reGroupUpdate(board);
 	}
 }
