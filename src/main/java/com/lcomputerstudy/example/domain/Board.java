@@ -13,7 +13,21 @@ public class Board {
 	private int bDepth;
 	private int bNew;
 	private User user;
+	private String keyWord;
+	private String search;
 	
+	public String getKeyWord() {
+		return keyWord;
+	}
+	public void setKeyWord(String keyWord) {
+		this.keyWord = keyWord;
+	}
+	public String getSearch() {
+		return search;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
 	public int getbNew() {
 		return bNew;
 	}

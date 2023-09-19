@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <style>
@@ -63,7 +63,20 @@
 	
 </style>
 <body>
-	<h1>�Խ���</h1>
+	<h1>게시판</h1>
+	<div style="text-align:center;">
+		<form action="/list" method="post">
+			<select name="keyWord">
+				<option value="none">== 선택 ==</option>
+				<option value="title">제목</option>
+				<option value="tc">제목+내용</option>
+				<option value="content">내용</option>
+				<option value="writer">작성자</option>
+			</select>
+			<input type="text" placeholder="검색어 입력" name="search">
+			<input type="submit" value="검색">
+		</form>
+	</div>
 	<table style="text-align:center;">
 		<col width="50px">
 		<col width="150px">
@@ -72,12 +85,12 @@
 		<col width="100px">
 		<col width="100px">
       	<tr>
-      		<td style="background-color:#eeeeee; text-align:center;">��ȣ</td>
-      		<td style="background-color:#eeeeee; text-align:center;">����</td>
-      		<td style="background-color:#eeeeee; text-align:center;">����</td>
-      		<td style="background-color:#eeeeee; text-align:center;">��ȸ��</td>
-      		<td style="background-color:#eeeeee; text-align:center;">�ۼ���</td>
-      		<td style="background-color:#eeeeee; text-align:center;">��¥</td>
+      		<td style="background-color:#eeeeee; text-align:center;">번호</td>
+      		<td style="background-color:#eeeeee; text-align:center;">제목</td>
+      		<td style="background-color:#eeeeee; text-align:center;">내용</td>
+      		<td style="background-color:#eeeeee; text-align:center;">조회수</td>
+      		<td style="background-color:#eeeeee; text-align:center;">작성자</td>
+      		<td style="background-color:#eeeeee; text-align:center;">날짜</td>
       	</tr>
       	<c:forEach var="list" items="${list }">
 	      	<tr>
@@ -91,8 +104,34 @@
       	</c:forEach>
     </table>
     <div class="button-container">
-      <a class="custom-button" href="insert-view" role="button">�۾���</a>
+      <a class="custom-button" href="insert-view" role="button">글쓰기</a>
       <a class="custom-button" href="/" role="button">home</a>
     </div>
+    <div>
+		<ul>
+			<c:choose>
+				<c:when test="${pagination.page > 5 }">
+					<li><a href="board-b_list.do?page=${pagination.prevPage}&keyWord=${param.keyWord}&search=${param.search}">◀</a></li>
+				</c:when>
+			</c:choose>
+			<c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
+				<c:choose>
+					<c:when test="${pagination.page == i }">
+						<li style="background-color:#ededed;">
+							<span>${i}</span>
+						</li>
+					</c:when>
+					<c:when test="${pagination.page != i }">
+						<li><a href="board-b_list.do?page=${i}&keyWord=${param.keyWord}&search=${param.search}">${i}</a></li>
+					</c:when>
+				</c:choose>
+			</c:forEach>
+			<c:choose>
+				<c:when test="${pagination.page < pagination.lastPage}">
+					<li><a href="board-b_list.do?page=${pagination.nextPage}&keyWord=${param.keyWord}&search=${param.search}">▶</a></li>
+				</c:when>
+			</c:choose>
+		</ul>
+	</div>
 </body>
 </html>

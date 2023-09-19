@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.lcomputerstudy.example.domain.Board;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.Comment;
+import com.lcomputerstudy.example.domain.SearchVO;
 import com.lcomputerstudy.example.service.BoardService;
 import com.lcomputerstudy.example.service.UserService;
 import com.lcomputerstudy.example.service.CommentService;
@@ -37,7 +38,7 @@ public class Controller {
 	
 	@RequestMapping("/")
 	public String home(Model model) {
-		List<Board> list = boardservice.selectBoardList();
+		List<Board> list = boardservice.BoardList();
 		model.addAttribute("list", list);
 		logger.debug("debug");
 		logger.info("info");
@@ -50,18 +51,18 @@ public class Controller {
 	}
 	@RequestMapping("/signup")
 	public String signup(User user) {
-		//ºñ¹Ð¹øÈ£ ¾ÏÈ£È­
+		//ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½È£È­
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
-		//À¯Àú µ¥ÀÌÅÍ ¼¼ÆÃ
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		user.setPassword(encodedPassword);
-		user.setAccountNonExpired(true);	//°èÁ¤ÀÌ ¸¸·áµÇÁö ¾Ê¾Ò´Ù(true)
-		user.setEnabled(true);				//°èÁ¤ÀÌ »ç¿ë°¡´ÉÇÏ´Ù(true) °èÁ¤ È°¼ºÈ­¿©ºÎ
-		user.setAccountNonLocked(true);		//°èÁ¤ÀÌ Àá°ÜÀÖÁö ¾Ê´Ù(true)
-		user.setCredentialsNonExpired(true);//°èÁ¤ÀÇ ÆÐ½º¿öµå°¡ ¸¸·áµÇÁö ¾Ê¾Ò´Ù(true)
+		user.setAccountNonExpired(true);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´ï¿½(true)
+		user.setEnabled(true);				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ë°¡ï¿½ï¿½ï¿½Ï´ï¿½(true) ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½
+		user.setAccountNonLocked(true);		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½(true)
+		user.setCredentialsNonExpired(true);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´ï¿½(true)
 		user.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
-		//À¯Àú »ý¼º
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		userservice.createUser(user);
-		//À¯Àú ±ÇÇÑ »ý¼º
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		userservice.createAuthorities(user);
 		return "/login";
 	}
@@ -95,11 +96,19 @@ public class Controller {
 		return "/insert-result";
 	}
 	@RequestMapping("/list")
-	public String list(Model model) {
-		List<Board> list = boardservice.selectBoardList();
+	public String list(@RequestParam(value ="keyWord", required = false) String keyWord, @RequestParam(value = "search", required = false) String search, Board board, Model model) {
+		board.setKeyWord(keyWord);
+		board.setSearch(search);
+		List<Board> list = boardservice.selectBoardList(board);
 		model.addAttribute("list", list);
 		return "/list";
 	}
+//	@RequestMapping("/list")
+//	public String l(Model model) {
+//		List<Board> list = boardservice.BoardList();
+//		model.addAttribute("list", list);
+//		return "/list";
+//	}
 	@RequestMapping("/detail")
 	public String detailBoard(@RequestParam("bId") int bId, Model model) {
 		boardservice.viewsBoard(bId);

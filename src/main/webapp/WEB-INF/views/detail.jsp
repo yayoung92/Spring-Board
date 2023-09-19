@@ -27,7 +27,7 @@
 <body>
 	<h1>게시글 상세페이지</h1>
  	<sec:authorize access="isAuthenticated()">
- 	<sec:authentication property="principal" var="principal"/>
+ 	<sec:authentication property="principal" var="user"/>
 	<form action="/detail" name="board" method="post">
 		<table>
 			 <tr>
@@ -68,16 +68,12 @@
 		</div>
 		<div>
 			<button type="button" class="reReply">대댓글</button>
-			<!--  	<form action="deleteComment" method="post">
-				<input type="hidden" name="bId" value="${comment.bId }">
-				<input type="hidden" name="cId" value="${comment.cId }">
-				<input type="submit" value="삭제하기"></form> -->
 			<button type="button" class="reUpdate">수정</button>
 			<button type="button" class="reReDelete" cid="${comment.cId }" bid="${comment.bId }">삭제</button>
 		</div>
 		<div style="display: none;">
 			<textarea rows="2" cols="80"></textarea>
-			<button type="button" class="reReInsert" cid="${comment.cId }" bid="${comment.bId }" cwriter="${principal.username }">등록</button>
+			<button type="button" class="reReInsert" cid="${comment.cId }" bid="${comment.bId }" cwriter="${user.username }">등록</button>
 			<button type="button" class="reDelete">취소</button>
 		</div>
 		<div style="display: none;">
@@ -93,7 +89,7 @@
 	<form action="/insertComment" name="comment" method="post">
 		<input type="hidden" name="bId" value="${board.bId}">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }">
-			<div>작성자 : <input type="hidden" name="cWriter" value="${principal.username}" readonly>${principal.username}</div>
+			<div>작성자 : <input type="hidden" name="cWriter" value="${user.username}" readonly>${user.username}</div>
 			<textarea rows="3" cols="40" name="cContent"></textarea>
 			<input type="submit" value="댓글달기">
 	</form>
@@ -136,15 +132,15 @@ $(document).on('click', '.reReDelete', function() {		//대댓글, 댓글 삭제
 $(document).on('click', '.reUpdate', function() {		//수정 값 가져오기
 	$(this).parent().next().next().css('display', '');
 });
-$(document).on('click', '.reReUpdate', function() {
+$(document).on('click', '.reReUpdate', function() {		//수정 값 넘기기
 	let cIdx = $(this).attr('cid');
-	let comment = $(this).prev().val();
-	let bIdx = $(this).attr('bid');
+    let comment = $(this).prev().val();
+    let bIdx = $(this).attr('bid');
 
 	$.ajax({
 		method: "POST",
 		url: "aj-comment-reUpdate",
-		data: { cId: cIdx, cContent: comment, bId: bIdx }
+		data: { cId: cIdx, cContent: comment, bId: bIdx}
 	})
 	.done(function(msg) {
 		$('#commentList').html(msg);

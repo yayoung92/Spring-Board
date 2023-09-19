@@ -4,23 +4,24 @@ import java.util.List;
 import com.lcomputerstudy.example.domain.Board;
 
 public interface BoardService {
-	public List<Board> selectBoardList();
-	//°Ô½Ã±Û ÀÛ¼º
+	public List<Board> BoardList();
+	public List<Board> selectBoardList(Board baord);
+	//ï¿½Ô½Ã±ï¿½ ï¿½Û¼ï¿½
 	public void insertBoard(Board board);
-	//°Ô½Ã±Û »ó¼¼ÆäÀÌÁö
+	//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public Board detailBoard(int bId);
-	//°Ô½Ã±Û »èÁ¦
+	//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public void deleteBoard(int bId);
-	//°Ô½Ã±Û Å¬¸¯¼ö
+	//ï¿½Ô½Ã±ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 	public void viewsBoard(int bId);
-	//°Ô½Ã±Û ¼öÁ¤ÇÏ±â
+	//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	public void updateBoard(Board board);
-	//°Ô½Ã±Û ¼±ÅÃ
+	//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public Board getBoard(int bId);
 	//group update
 	public void groupUpdate(int bId);
-	//´ä±Û ÀÛ¼º
+	//ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½
 	public void reBoard(Board board);
-	//´ä±Û group update
+	//ï¿½ï¿½ï¿½ group update
 	public void reGroupUpdate(Board board);
 }
