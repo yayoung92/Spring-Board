@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<meta name="_csrf" content="${_csrf.token }">
 </head>
 <style>
 	table {
@@ -106,10 +107,14 @@ $(document).on('click', '.reReInsert', function() {		//대댓글 ajax 넘기기
 	let comment = $(this).prev("textarea").val();
 	let bIdx = $(this).attr('bid');
 	let cWri = $(this).attr('cwriter');
+	let csrfToken = $("meta[name='_csrf']").attr("content");
 
 	$.ajax({
 		method: "POST",
 		url: "aj-comment-reReply",
+		headers: {
+			"X-CSRF-TOKEN": csrfToken
+		},
 		data: { cId: cIdx, cContent: comment, bId: bIdx, cWriter: cWri}
 	})
 	.done(function(msg) {
@@ -119,10 +124,14 @@ $(document).on('click', '.reReInsert', function() {		//대댓글 ajax 넘기기
 $(document).on('click', '.reReDelete', function() {		//대댓글, 댓글 삭제
 	let cIdx = $(this).attr('cid');
 	let bIdx = $(this).attr('bid');
+	let csrfToken = $("meta[name='_csrf']").attr("content");
 
 	$.ajax({
 		method: "POST",
 		url: "aj-comment-reDelete",
+		headers: {
+			"X-CSRF-TOKEN": csrfToken
+		},
 		data: { cId: cIdx, bId: bIdx }
 	})
 	.done(function(msg) {
@@ -136,10 +145,14 @@ $(document).on('click', '.reReUpdate', function() {		//수정 값 넘기기
 	let cIdx = $(this).attr('cid');
     let comment = $(this).prev().val();
     let bIdx = $(this).attr('bid');
+    let csrfToken = $("meta[name='_csrf']").attr("content");
 
 	$.ajax({
 		method: "POST",
 		url: "aj-comment-reUpdate",
+		headers: {
+			"X-CSRF-TOKEN": csrfToken
+		},
 		data: { cId: cIdx, cContent: comment, bId: bIdx}
 	})
 	.done(function(msg) {

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.lcomputerstudy.example.domain.Board;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.Comment;
+import com.lcomputerstudy.example.domain.PageMake;
+import com.lcomputerstudy.example.domain.Pagination;
 import com.lcomputerstudy.example.domain.SearchVO;
 import com.lcomputerstudy.example.service.BoardService;
 import com.lcomputerstudy.example.service.UserService;
@@ -51,18 +53,18 @@ public class Controller {
 	}
 	@RequestMapping("/signup")
 	public String signup(User user) {
-		//��й�ȣ ��ȣȭ
+		//占쏙옙橘占싫� 占쏙옙호화
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
-		//���� ������ ����
+		//占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙
 		user.setPassword(encodedPassword);
-		user.setAccountNonExpired(true);	//������ ������� �ʾҴ�(true)
-		user.setEnabled(true);				//������ ��밡���ϴ�(true) ���� Ȱ��ȭ����
-		user.setAccountNonLocked(true);		//������ ������� �ʴ�(true)
-		user.setCredentialsNonExpired(true);//������ �н����尡 ������� �ʾҴ�(true)
+		user.setAccountNonExpired(true);	//占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占� 占십았댐옙(true)
+		user.setEnabled(true);				//占쏙옙占쏙옙占쏙옙 占쏙옙諛∽옙占쏙옙求占�(true) 占쏙옙占쏙옙 활占쏙옙화占쏙옙占쏙옙
+		user.setAccountNonLocked(true);		//占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占� 占십댐옙(true)
+		user.setCredentialsNonExpired(true);//占쏙옙占쏙옙占쏙옙 占싻쏙옙占쏙옙占썲가 占쏙옙占쏙옙占쏙옙占� 占십았댐옙(true)
 		user.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
-		//���� ����
+		//占쏙옙占쏙옙 占쏙옙占쏙옙
 		userservice.createUser(user);
-		//���� ���� ����
+		//占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
 		userservice.createAuthorities(user);
 		return "/login";
 	}
@@ -96,19 +98,16 @@ public class Controller {
 		return "/insert-result";
 	}
 	@RequestMapping("/list")
-	public String list(@RequestParam(value ="keyWord", required = false) String keyWord, @RequestParam(value = "search", required = false) String search, Board board, Model model) {
-		board.setKeyWord(keyWord);
-		board.setSearch(search);
-		List<Board> list = boardservice.selectBoardList(board);
+	public String list(Model model, SearchVO searchvo, Pagination pagination) {
+		int total = boardservice.getTotal();
+		List<Board> list = boardservice.selectBoardList(searchvo, pagination);
 		model.addAttribute("list", list);
+		
+		pagination.setCount(total);
+		pagination.init();
+		model.addAttribute("pagination", pagination);
 		return "/list";
 	}
-//	@RequestMapping("/list")
-//	public String l(Model model) {
-//		List<Board> list = boardservice.BoardList();
-//		model.addAttribute("list", list);
-//		return "/list";
-//	}
 	@RequestMapping("/detail")
 	public String detailBoard(@RequestParam("bId") int bId, Model model) {
 		boardservice.viewsBoard(bId);

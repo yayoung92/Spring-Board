@@ -4,6 +4,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lcomputerstudy.example.domain.Board;
+import com.lcomputerstudy.example.domain.Pagination;
+import com.lcomputerstudy.example.domain.SearchVO;
 import com.lcomputerstudy.example.mapper.BoardMapper;
 
 @Service("BoardServiceImpl")
@@ -14,8 +16,8 @@ public class BoardServiceImpl implements BoardService {
 		return boardmapper.BoardList();
 	}
 	@Override
-	public List<Board> selectBoardList(Board board) {
-		return boardmapper.selectBoardList(board);
+	public List<Board> selectBoardList(SearchVO searchvo, Pagination pagination) {
+		return boardmapper.selectBoardList(searchvo, pagination);
 	}
 	@Override
 	public void insertBoard(Board board) {
@@ -52,5 +54,9 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void reGroupUpdate(Board board) {
 		boardmapper.reGroupUpdate(board);
+	}
+	@Override
+	public int getTotal() {
+		return boardmapper.getTotal();
 	}
 }

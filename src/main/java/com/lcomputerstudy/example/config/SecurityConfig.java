@@ -34,28 +34,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-//		ÀÎÁõ°ú ±ÇÇÑ
+//		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		http
 		.authorizeRequests()
 			.antMatchers("/user/**").authenticated()
 			.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 			.anyRequest().permitAll()
 			.and()
-//		Æû ·Î±×ÀÎ ¼³Á¤
+//		ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		.formLogin()
 			.loginPage("/login")
 			.loginProcessingUrl("/loginPro")
 			.defaultSuccessUrl("/", true)
 			.permitAll()
 			.and()
-//		·Î±×¾Æ¿ô ¼³Á¤
+//		ï¿½Î±×¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 		.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 			.logoutSuccessUrl("/")
 			.invalidateHttpSession(true)
 			.deleteCookies("JSESSIONID", "remember-me")
 			.and()
-//		remember me ¼³Á¤
+//		remember me ï¿½ï¿½ï¿½ï¿½
 		.rememberMe()
 			.key("myWeb")
 			.rememberMeParameter("remember-me")
@@ -65,13 +65,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.exceptionHandling()
 			.accessDeniedPage("/denied")
 			.and()
-//		session °ü¸®
+//		session ï¿½ï¿½ï¿½ï¿½
 		.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.NEVER)
 			.invalidSessionUrl("/login")
 			.and()
 //		csrf
-		.csrf().disable();
+		.csrf();
 	}
 	@Bean
 	public PersistentTokenRepository persistentTokenRepository() {
@@ -79,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		db.setDataSource(dataSource);
 		return db;
 	}
-	//security ±âº»¼³Á¤
+	//security ï¿½âº»ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());

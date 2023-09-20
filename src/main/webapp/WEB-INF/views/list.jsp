@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <style>
 	h1 {
@@ -61,11 +62,13 @@
       	cursor: pointer;
 	}
 	
+	
 </style>
 <body>
 	<h1>게시판</h1>
 	<div style="text-align:center;">
 		<form action="/list" method="post">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 			<select name="keyWord">
 				<option value="none">== 선택 ==</option>
 				<option value="title">제목</option>
@@ -111,7 +114,7 @@
 		<ul>
 			<c:choose>
 				<c:when test="${pagination.page > 5 }">
-					<li><a href="board-b_list.do?page=${pagination.prevPage}&keyWord=${param.keyWord}&search=${param.search}">◀</a></li>
+					<li><a href="/list?page=${pagination.prevPage}&keyWord=${param.keyWord}&search=${param.search}">◀</a></li>
 				</c:when>
 			</c:choose>
 			<c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
@@ -122,16 +125,25 @@
 						</li>
 					</c:when>
 					<c:when test="${pagination.page != i }">
-						<li><a href="board-b_list.do?page=${i}&keyWord=${param.keyWord}&search=${param.search}">${i}</a></li>
+						<li><a href="/list?page=${i}&keyWord=${param.keyWord}&search=${param.search}">${i}</a></li>
 					</c:when>
 				</c:choose>
 			</c:forEach>
 			<c:choose>
 				<c:when test="${pagination.page < pagination.lastPage}">
-					<li><a href="board-b_list.do?page=${pagination.nextPage}&keyWord=${param.keyWord}&search=${param.search}">▶</a></li>
+					<li><a href="/list?page=${pagination.nextPage}&keyWord=${param.keyWord}&search=${param.search}">▶</a></li>
 				</c:when>
 			</c:choose>
 		</ul>
 	</div>
+<script>
+$(".pageInfo a").on("click", function(e){
+	e.preventDefault();
+	moveForm.find("input[name='pageNum']").val($(this).attr("href"));
+	moveForm.attr("action", "/list");
+	moveForm.submit();
+	
+});	
+</script>
 </body>
 </html>

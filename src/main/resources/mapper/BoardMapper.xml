@@ -13,7 +13,8 @@
 				    b_depth as bDepth
 	      FROM      lc_board
 	   </select>
-	<select id="selectBoardList" resultType="Board" parameterType="String">
+<!-- 검색 기능 구현 리스트 -->
+	<select id="selectBoardList" resultType="Board">
 	      SELECT	b_id as bId,
 				    b_title as bTitle,
 				    b_content as bContent,
@@ -41,6 +42,13 @@
 		      		AND b_writer LIKE CONCAT('%', #{search}, '%')
 		      	</if>
 	      </where>
+	      LIMIT		#{perPage}, #{pageNum}
+	</select>
+<!-- 게시물 총 갯수 -->
+	<select id="getTotal" resultType="int">
+		SELECT
+		COUNT(*) count
+		FROM	 lc_board
 	</select>
 <!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="Board">
