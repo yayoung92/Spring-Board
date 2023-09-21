@@ -7,7 +7,7 @@ import com.lcomputerstudy.example.domain.Pagination;
 
 public interface BoardService {
 	public List<Board> BoardList();
-	public List<Board> selectBoardList(SearchVO searchvo, Pagination pagination);
+	public List<Board> selectBoardList(Pagination pagination);
 	//�Խñ� �ۼ�
 	public void insertBoard(Board board);
 	//�Խñ� ��������
@@ -27,5 +27,5 @@ public interface BoardService {
 	//��� group update
 	public void reGroupUpdate(Board board);
 	//총 게시물 갯수
-	public int getTotal();
+	public int getTotal(SearchVO searchvo);
 }

@@ -9,7 +9,7 @@ import com.lcomputerstudy.example.domain.SearchVO;
 @Mapper
 public interface BoardMapper {
 	public List<Board> BoardList();
-	public List<Board> selectBoardList(SearchVO searchvo, Pagination pagination);
+	public List<Board> selectBoardList(Pagination pagination);
 	//占쌉시깍옙 占쌜쇽옙
 	public void insertBoard(Board board);
 	//占쌉시깍옙 占쏙옙占쏙옙占쏙옙占쏙옙
@@ -29,5 +29,5 @@ public interface BoardMapper {
 	//占쏙옙占� group update
 	public void reGroupUpdate(Board board);
 	//珥� 寃뚯떆臾� 媛��닔
-	public int getTotal();
+	public int getTotal(SearchVO searchvo);
 }

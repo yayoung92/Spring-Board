@@ -3,26 +3,27 @@ package com.lcomputerstudy.example.domain;
 public class SearchVO {
 	private String keyWord;
 	private String search;
-	private int pageNum;	//현재 페이지
-	private int amount;		//한 페이지당 보여질 게시물 갯수
+	private int page = 1;	//현재 페이지
+	private int perPage;		//한 페이지당 보여질 게시물 갯수
 	
 	public SearchVO() {
+		
 	}
-	public SearchVO(int pageNum, int amount) {
-		this.pageNum = pageNum;
-		this.amount = amount;
+	public SearchVO(String keyWord, String search) {
+		this.keyWord = keyWord;
+		this.search = search;
 	}
-	public int getPageNum() {
-		return pageNum;
+	public int getPage() {
+		return page;
 	}
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
+	public void setPage(int page) {
+		this.page = page;
 	}
-	public int getAmount() {
-		return amount;
+	public int getPerPage() {
+		return perPage;
 	}
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setPerPage(int perPage) {
+		this.perPage = perPage;
 	}
 	public String getKeyWord() {
 		return keyWord;
@@ -38,7 +39,7 @@ public class SearchVO {
 	}
 	@Override
 	public String toString() {
-		return "SearchVO [keyWord=" + keyWord + ", search=" + search + ", pageNum=" + pageNum + ", amount=" + amount
+		return "SearchVO [keyWord=" + keyWord + ", search=" + search + ", page=" + page + ", perPage=" + perPage
 				+ "]";
 	}
 	

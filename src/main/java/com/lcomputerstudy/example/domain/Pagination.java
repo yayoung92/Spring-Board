@@ -2,28 +2,23 @@ package com.lcomputerstudy.example.domain;
 
 public class Pagination {
 	int count;				//선택 한 테이블에 등록 된 총 컬럼 수
-	int page;				//현재 페이지번호
-	int pageNum;			//userCount / page = 화면에 나타 낼 user index번호
+	int page = 1;				//현재 페이지번호
+	int pageNum;			//getTotal
 	int startPage;			//시작페이지(ex,1,6,11)
 	int endPage;			//끝 페이지(ex,5,10,15)
-	int lastPage;			//(userCount/화면에 표시할 갯수), pagination 마지막 번호
+	int lastPage;			//(getTotal/화면에 표시할 갯수), pagination 마지막 번호
 	int prevPage;			//pagination의 이전 목록
 	int nextPage;			//pagination의 다음 목록
 	public static final int pageUnit=5;		//한번에 불러 올 pagination 수 
-	public static final int perPage=5;		//한번에 불러 올 userCount 수
-	private SearchVO searchvo;
-	
-	public SearchVO getSearchvo() {
-		return searchvo;
-	}
+	public static final int perPage=5;		//한번에 불러 올 getTotal 수
+	private SearchVO searchVO;
 
-	public void setSearchvo(SearchVO searchvo) {
-		this.searchvo = searchvo;
+	public SearchVO getSearchVO() {
+		return searchVO;
 	}
-	public Pagination() {
-		
+	public void setSearchVO(SearchVO searchVO) {
+		this.searchVO = searchVO;
 	}
-
 	public void init() {
 		pageNum = (page-1)*perPage;
 		startPage =((page-1)/pageUnit)*pageUnit+1;

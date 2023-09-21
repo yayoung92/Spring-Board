@@ -1,6 +1,9 @@
 package com.lcomputerstudy.example.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lcomputerstudy.example.domain.Board;
@@ -16,8 +19,8 @@ public class BoardServiceImpl implements BoardService {
 		return boardmapper.BoardList();
 	}
 	@Override
-	public List<Board> selectBoardList(SearchVO searchvo, Pagination pagination) {
-		return boardmapper.selectBoardList(searchvo, pagination);
+	public List<Board> selectBoardList(Pagination pagination) {
+		return boardmapper.selectBoardList(pagination);
 	}
 	@Override
 	public void insertBoard(Board board) {
@@ -56,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
 		boardmapper.reGroupUpdate(board);
 	}
 	@Override
-	public int getTotal() {
-		return boardmapper.getTotal();
+	public int getTotal(SearchVO searchvo) {
+		return boardmapper.getTotal(searchvo);
 	}
 }

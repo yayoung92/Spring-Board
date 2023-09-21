@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.lcomputerstudy.example.domain.Board;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.Comment;
-import com.lcomputerstudy.example.domain.PageMake;
 import com.lcomputerstudy.example.domain.Pagination;
 import com.lcomputerstudy.example.domain.SearchVO;
 import com.lcomputerstudy.example.service.BoardService;
@@ -99,12 +98,18 @@ public class Controller {
 	}
 	@RequestMapping("/list")
 	public String list(Model model, SearchVO searchvo, Pagination pagination) {
-		int total = boardservice.getTotal();
-		List<Board> list = boardservice.selectBoardList(searchvo, pagination);
-		model.addAttribute("list", list);
+		int total = boardservice.getTotal(searchvo);
+	//	SearchVO search = new SearchVO();
+		searchvo.setKeyWord(searchvo.getKeyWord());
+		searchvo.setSearch(searchvo.getSearch());
+		pagination.setSearchVO(searchvo);
 		
+	//	pagination.setPage(searchvo.getPage());
 		pagination.setCount(total);
 		pagination.init();
+		List<Board> list = boardservice.selectBoardList(pagination);
+		model.addAttribute("list", list);
+		System.out.println(total);
 		model.addAttribute("pagination", pagination);
 		return "/list";
 	}

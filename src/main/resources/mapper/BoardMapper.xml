@@ -26,29 +26,49 @@
 				    b_depth as bDepth
 	      FROM      lc_board
 	      <where>
-	      		<if test="keyWord == 'none'">
-	      		
+	      	<if test="searchVO != null">
+	      		<if test="searchVO.keyWord != null or searchVO.keyWord == 'none'">
+		      		<choose>		      	
+				      	<when test="searchVO.keyWord == 'title'">
+				      		AND b_title LIKE CONCAT('%', #{searchVO.search}, '%')
+				      	</when>
+				      	<when test="searchVO.keyWord == 'tc'">
+				      		AND (b_title LIKE CONCAT('%', #{searchVO.search}, '%')) OR (b_content LIKE CONCAT('%', #{searchVO.search}, '%'))
+				      	</when>
+				      	<when test="searchVO.keyWord == 'content'">
+				      		AND b_title LIKE CONCAT('%', #{searchVO.search}, '%')
+				      	</when>
+				      	<when test="searchVO.keyWord == 'writer'">
+				      		AND b_writer LIKE CONCAT('%', #{searchVO.search}, '%')
+				      	</when>
+			      	</choose>
 		      	</if>
-		      	<if test="keyWord == 'title'">
-		      		AND b_title LIKE CONCAT('%', #{search}, '%')
-		      	</if>
-		      	<if test="keyWord == 'tc'">
-		      		AND (b_title LIKE CONCAT('%', #{search}, '%')) OR (b_content LIKE CONCAT('%', #{search}, '%'))
-		      	</if>
-		      	<if test="keyWord == 'title'">
-		      		AND b_title LIKE CONCAT('%', #{search}, '%')
-		      	</if>
-		      	<if test="keyWord == 'writer'">
-		      		AND b_writer LIKE CONCAT('%', #{search}, '%')
-		      	</if>
+		  	</if>
 	      </where>
-	      LIMIT		#{perPage}, #{pageNum}
+		 LIMIT	#{pageNum}, #{perPage}
 	</select>
 <!-- 게시물 총 갯수 -->
 	<select id="getTotal" resultType="int">
-		SELECT
-		COUNT(*) count
+		SELECT COUNT(*) as count
 		FROM	 lc_board
+		<where>
+	      	<if test="keyWord != null or keyWord == 'none'">
+	      		<choose>		      	
+			      	<when test="keyWord == 'title'">
+			      		AND b_title LIKE CONCAT('%', #{search}, '%')
+			      	</when>
+			      	<when test="keyWord == 'tc'">
+			      		AND (b_title LIKE CONCAT('%', #{search}, '%')) OR (b_content LIKE CONCAT('%', #{search}, '%'))
+			      	</when>
+			      	<when test="keyWord == 'content'">
+			      		AND b_title LIKE CONCAT('%', #{search}, '%')
+			      	</when>
+			      	<when test="keyWord == 'writer'">
+			      		AND b_writer LIKE CONCAT('%', #{search}, '%')
+			      	</when>
+		      	</choose>
+		      </if>
+	      </where>
 	</select>
 <!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="Board">
