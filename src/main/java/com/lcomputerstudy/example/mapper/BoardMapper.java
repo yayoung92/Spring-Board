@@ -1,6 +1,9 @@
 package com.lcomputerstudy.example.mapper;
 
 import java.util.List;
+
+import javax.servlet.http.Part;
+
 import org.apache.ibatis.annotations.Mapper;
 import com.lcomputerstudy.example.domain.Board;
 import com.lcomputerstudy.example.domain.Pagination;
@@ -30,4 +33,6 @@ public interface BoardMapper {
 	public void reGroupUpdate(Board board);
 	//珥� 寃뚯떆臾� 媛��닔
 	public int getTotal(SearchVO searchvo);
+	//파일업로드
+	public String getFilename(Part part);
 }

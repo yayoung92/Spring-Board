@@ -1,6 +1,12 @@
 package com.lcomputerstudy.example.controller;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.Part;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +16,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.lcomputerstudy.example.domain.Board;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.Comment;
+import com.lcomputerstudy.example.domain.LevelVO;
 import com.lcomputerstudy.example.domain.Pagination;
 import com.lcomputerstudy.example.domain.SearchVO;
 import com.lcomputerstudy.example.service.BoardService;
@@ -47,7 +55,8 @@ public class Controller {
 		return "/index";
 	}
 	@RequestMapping("/beforeSignUp")
-	public String beforeSignUp() {
+	public String beforeSignUp(User user) {
+		userservice.levelupdate(user);
 		return "/signup";
 	}
 	@RequestMapping("/signup")
@@ -65,6 +74,7 @@ public class Controller {
 		userservice.createUser(user);
 		//占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
 		userservice.createAuthorities(user);
+		userservice.levelupdate(user);
 		return "/login";
 	}
 	@RequestMapping(value="/login")
@@ -85,12 +95,69 @@ public class Controller {
 	public String denied(Model model) {
 		return "/denied";
 	}
+	@RequestMapping("/u_list")
+	public String userlist(Model model, Pagination pagination) {
+		int total = userservice.getUserCount();
+		
+		pagination.setCount(total);
+		pagination.init();
+		List<User> list = userservice.getUser(pagination);
+		for(User user: list) {
+			userservice.levelupdate(user);
+			if(user.getuLevel() >= 5) {
+				user.setuLevelname("관리자");
+			} else if(user.getuLevel() == 3 || user.getuLevel() == 4) {
+				user.setuLevelname("우수회원");
+			} else {
+				user.setuLevelname("일반회원");
+			}
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("pagination", pagination);
+		
+		return "/u_list";
+	}
+	@RequestMapping("aj-user-level")
+	public String userlevelupdate(Model model, LevelVO levelVO, Pagination pagination) {
+		int total = userservice.getUserCount();
+		
+		pagination.setCount(total);
+		pagination.init();
+		
+		userservice.levelUser(levelVO);
+		
+		List<User> list = userservice.getUser(pagination);
+		for(User user1: list) {
+			userservice.levelupdate(user1);
+			if(user1.getuLevel() >= 5) {
+				user1.setuLevelname("관리자");
+			} else if(user1.getuLevel() == 3 || user1.getuLevel() == 4) {
+				user1.setuLevelname("우수회원");
+			} else {
+				user1.setuLevelname("일반회원");
+			}
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("pagination", pagination);
+		return "/u_listt";
+	}
 	@RequestMapping("insert-view")
 	public String insert(Model model) {
 		return "/insert";
 	}
-	@RequestMapping(value="/insertBoard")
-	public String insertBoard(Board board) {
+	
+	@RequestMapping("/insertBoard")
+	public String insertBoard(Board board, @RequestParam("filename") Part part) throws IOException {
+		
+		String filename = boardservice.getFilename(part);
+		try {
+			if(!filename.isEmpty()) {
+				part.write("C:\\Users\\L10B\\Documents\\work2\\lcomputerstudyyy\\static\\img\\" + filename);
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		board.setfName(filename);
 		boardservice.insertBoard(board);
 		int bId = board.getbId();
 		boardservice.groupUpdate(bId);
@@ -99,17 +166,14 @@ public class Controller {
 	@RequestMapping("/list")
 	public String list(Model model, SearchVO searchvo, Pagination pagination) {
 		int total = boardservice.getTotal(searchvo);
-	//	SearchVO search = new SearchVO();
-		searchvo.setKeyWord(searchvo.getKeyWord());
-		searchvo.setSearch(searchvo.getSearch());
+		
 		pagination.setSearchVO(searchvo);
 		
-	//	pagination.setPage(searchvo.getPage());
 		pagination.setCount(total);
 		pagination.init();
+		
 		List<Board> list = boardservice.selectBoardList(pagination);
 		model.addAttribute("list", list);
-		System.out.println(total);
 		model.addAttribute("pagination", pagination);
 		return "/list";
 	}

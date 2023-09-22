@@ -1,21 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>х╦©Ь ╟║ют</h1>
+	<h1>М ▄Л⌡░ Й╟─Л·┘</h1>
 		<hr>
 		<form action="/signup" method="post">
 		<!-- csrf -->
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-			<input type="text" name="username" placeholder="id ют╥б">
-			<input type="text" name="uName" placeholder="name ют╥б">
-			<input type="password" name="password" placeholder="password ют╥б">
-			<button type="submit">╟║ютго╠Б</button>
+			<input type="text" name="username" placeholder="id Л·┘К═╔">
+			<input type="text" name="uName" placeholder="name Л·┘К═╔">
+			<input type="password" name="password" placeholder="password Л·┘К═╔">
+			<button type="submit">Й╟─Л·┘М∙≤Й╦╟</button>
 		</form>
 </body>
 </html>

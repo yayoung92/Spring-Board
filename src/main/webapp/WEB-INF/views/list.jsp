@@ -69,14 +69,14 @@
 	<div style="text-align:center;">
 		<form action="/list" method="post">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-			<select name="pagination.searchVO.keyWord">
+			<select name="keyWord">
 				<option value="none">== 선택 ==</option>
 				<option value="title">제목</option>
 				<option value="tc">제목+내용</option>
 				<option value="content">내용</option>
 				<option value="writer">작성자</option>
 			</select>
-			<input type="text" placeholder="검색어 입력" name="pagination.searchVO.search">
+			<input type="text" placeholder="검색어 입력" name="search">
 			<input type="submit" value="검색">
 		</form>
 	</div>

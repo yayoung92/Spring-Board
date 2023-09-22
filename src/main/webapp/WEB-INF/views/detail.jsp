@@ -50,13 +50,26 @@
 			<tr>
 				<td>날짜</td>	
 				<td>${board.bDateTime}</td>
+			</tr>
+			<tr>
+				<td>이미지</td>
+				<td><img alt="${board.fName }" src="/img/${board.fName }"></td>
 			</tr>				
 		</table>
-	
+	<div>
 		<a href="/list"><input type="button" value="돌아가기"></a>
-		<a href="/update-view?bId=${board.bId }"><input type="button" value="수정"></a>
-		<a href="/delete?bId=${board.bId }"><input type="button" value="삭제"></a>
-		<a href="/reply-view?bId=${board.bId}"><input type="button" value="답글"></a>
+		<c:choose>
+			<c:when test="${board.bWriter eq user.username}">
+				<a href="/delete?bId=${board.bId }"><input type="button" value="삭제"></a>
+				<a href="/update-view?bId=${board.bId }"><input type="button" value="수정"></a>
+			</c:when>
+			<c:when test="${user.uLevel >= 5 }">
+				<a href="/delete?bId=${board.bId }"><input type="button" value="삭제"></a>
+			</c:when>
+		
+		</c:choose>
+		<a href="/reply-view?bId=${board.bId }"><input type="button" value="답글"></a>
+	</div>
 	</form>
 	<h2>댓글 목록</h2>
 	<hr>
@@ -68,9 +81,17 @@
 			${comment.cDateTime }<br>
 		</div>
 		<div>
-			<button type="button" class="reReply">대댓글</button>
-			<button type="button" class="reUpdate">수정</button>
-			<button type="button" class="reReDelete" cid="${comment.cId }" bid="${comment.bId }">삭제</button>
+		<c:choose>
+			<c:when test="${comment.cWriter eq user.username}">
+				
+				<button type="button" class="reUpdate">수정</button>
+				<button type="button" class="reReDelete" cid="${comment.cId }" bid="${comment.bId }">삭제</button>
+			</c:when>
+			<c:when test="${user.uLevel >= 5 }">
+				<button type="button" class="reReDelete" cid="${comment.cId }" bid="${comment.bId }">삭제</button>
+			</c:when>
+		</c:choose>
+		<button type="button" class="reReply">대댓글</button>
 		</div>
 		<div style="display: none;">
 			<textarea rows="2" cols="80"></textarea>

@@ -15,7 +15,14 @@ public class Board {
 	private User user;
 	private String keyWord;
 	private String search;
+	private String fName;
 	
+	public String getfName() {
+		return fName;
+	}
+	public void setfName(String fName) {
+		this.fName = fName;
+	}
 	public String getKeyWord() {
 		return keyWord;
 	}

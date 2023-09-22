@@ -10,13 +10,27 @@ public class User implements UserDetails {
 	private String password;	//u_password
 	private String uName;		//u_name
 	private String uDateTime;	//u_datetime
-	//security °ü·Ã
+	private int uLevel;
+	private String uLevelname;
+	//security ï¿½ï¿½ï¿½ï¿½
 	private Collection<? extends GrantedAuthority> authorities;
 	private boolean isAccountNonExpired;
 	private boolean isAccountNonLocked;
 	private boolean isCredentialsNonExpired;
 	private boolean isEnabled;
 	
+	public String getuLevelname() {
+		return uLevelname;
+	}
+	public void setuLevelname(String uLevelname) {
+		this.uLevelname = uLevelname;
+	}
+	public int getuLevel() {
+		return uLevel;
+	}
+	public void setuLevel(int uLevel) {
+		this.uLevel = uLevel;
+	}
 	@Override
 	public String getUsername() {
 		return username;
@@ -81,9 +95,10 @@ public class User implements UserDetails {
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + ", uName=" + uName + ", uDateTime=" + uDateTime
-				+ ", authorities=" + authorities + ", isAccountNonExpired=" + isAccountNonExpired
-				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
-				+ ", isEnabled=" + isEnabled + "]";
+				+ ", uLevel=" + uLevel + ", uLevelname=" + uLevelname + ", authorities=" + authorities
+				+ ", isAccountNonExpired=" + isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked
+				+ ", isCredentialsNonExpired=" + isCredentialsNonExpired + ", isEnabled=" + isEnabled + "]";
 	}
+	
 
 }

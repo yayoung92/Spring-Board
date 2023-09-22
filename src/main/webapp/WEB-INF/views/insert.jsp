@@ -11,7 +11,7 @@
 <body>
 	<h2>게시글 작성</h2>
 	<sec:authorize access="isAuthenticated()">  
-	<form action="/insertBoard" method="post">
+	<form action="/insertBoard" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }">
 		<table>
 			<tr>
@@ -27,6 +27,10 @@
 		 		<sec:authentication property="principal" var="principal"/>
 		 		<td>작성자 : </td>
 				<td><input type="hidden" name="bWriter" value="${principal.username}" readonly>${principal.username}</td>
+			</tr>
+			<tr>
+				<td>첨부파일: </td>
+				<td><input type="file" name="filename"></td>
 			</tr>
 		</table>
 		<button type="submit">작성완료</button>

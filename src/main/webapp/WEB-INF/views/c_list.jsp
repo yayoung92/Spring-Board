@@ -11,10 +11,17 @@
 			${comment.cDateTime }<br>
 		</div>
 		<div>
+			<c:choose>
+				<c:when test="${comment.cWriter eq user.username}">
+					
+					<button type="button" class="reUpdate">수정</button>
+					<button type="button" class="reReDelete" cid="${comment.cId }" bid="${comment.bId }">삭제</button>
+				</c:when>
+				<c:when test="${user.uLevel >= 5 }">
+					<button type="button" class="reReDelete" cid="${comment.cId }" bid="${comment.bId }">삭제</button>
+				</c:when>
+			</c:choose>
 			<button type="button" class="reReply">대댓글</button>
-			<button type="button" class="reUpdate">수정</button>
-			<button type="button" class="reReDelete" cid="${comment.cId }" bid="${comment.bId }">삭제</button>
-			
 		</div>
 		<div style="display: none;">
 			<textarea rows="2" cols="80"></textarea>

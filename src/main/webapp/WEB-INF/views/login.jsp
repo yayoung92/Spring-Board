@@ -1,19 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>·Î±×ÀÎ</h1>
+	<h1>ë¡œê·¸ì¸</h1>
 		<form action="/loginPro" method="post">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }">
-			<input type="text" name="username" placeholder="id¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.">
-			<input type="password" name="password" placeholder="password¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.">
+			<input type="text" name="username" placeholder="idë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.">
+			<input type="password" name="password" placeholder="passwordë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.">
 			<input id="remember_me" name="remember-me" type="checkbox"/>Remember me
-			<button type="submit">·Î±×ÀÎ</button>
+			<button type="submit">ë¡œê·¸ì¸</button>
 		</form>
+	<sec:authorize access="isAnonymous()">
+    	<a href="/beforeSignUp">íšŒì›ê°€ì…</a>
+    </sec:authorize>  
 </body>
 </html>

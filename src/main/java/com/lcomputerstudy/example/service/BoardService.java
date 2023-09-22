@@ -1,6 +1,9 @@
 package com.lcomputerstudy.example.service;
 
 import java.util.List;
+
+import javax.servlet.http.Part;
+
 import com.lcomputerstudy.example.domain.Board;
 import com.lcomputerstudy.example.domain.SearchVO;
 import com.lcomputerstudy.example.domain.Pagination;
@@ -28,4 +31,6 @@ public interface BoardService {
 	public void reGroupUpdate(Board board);
 	//총 게시물 갯수
 	public int getTotal(SearchVO searchvo);
+	//파일 업로드
+	public String getFilename(Part part);
 }

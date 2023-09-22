@@ -3,19 +3,35 @@ package com.lcomputerstudy.example.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.security.core.GrantedAuthority;
+
+import com.lcomputerstudy.example.domain.LevelVO;
+import com.lcomputerstudy.example.domain.Pagination;
 import com.lcomputerstudy.example.domain.User;
 
 @Mapper
 public interface UserMapper {
-	//À¯ÀúÀĞ±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
 	public User readUser(String username);
 	
-	//À¯Àú»ı¼º
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void createUser(User user);
 	
-	//±ÇÇÑ ÀĞ±â
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ±ï¿½
 	public List<GrantedAuthority> readAuthorities(String username);
 	
-	//±ÇÇÑ »ı¼º
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public void createAuthority(User user);
+	
+	//ìœ ì € ë ˆë²¨ ì—…ë°ì´íŠ¸
+	public void levelupdate(User user);
+	
+	//ìœ ì € ë ˆë²¨
+	public void levelUser(LevelVO levelVO);
+	
+	//ìœ ì € ì„¸ê¸°
+	public int getUserCount();
+	
+	//ìœ ì €ë¦¬ìŠ¤íŠ¸
+	public List<User> getUser(Pagination pagination);
+	
 }

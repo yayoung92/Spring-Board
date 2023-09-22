@@ -3,7 +3,7 @@ package com.lcomputerstudy.example.domain;
 public class SearchVO {
 	private String keyWord;
 	private String search;
-	private int page = 1;	//현재 페이지
+	private int page;	//현재 페이지
 	private int perPage;		//한 페이지당 보여질 게시물 갯수
 	
 	public SearchVO() {

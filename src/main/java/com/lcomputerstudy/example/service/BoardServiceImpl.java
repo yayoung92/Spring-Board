@@ -1,8 +1,8 @@
 package com.lcomputerstudy.example.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.Part;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,5 +61,17 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int getTotal(SearchVO searchvo) {
 		return boardmapper.getTotal(searchvo);
+	}
+	@Override
+	public String getFilename(Part part) {
+		String contentDisp = part.getHeader("content-disposition");
+        String[] split = contentDisp.split(";");
+        for (int i = 0; i < split.length; i++) {
+            String temp = split[i];
+            if (temp.trim().startsWith("filename")) {
+                return temp.substring(temp.indexOf("=") + 2, temp.length() - 1);
+            }
+        }
+        return "";
 	}
 }

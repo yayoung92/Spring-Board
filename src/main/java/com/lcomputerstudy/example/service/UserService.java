@@ -4,18 +4,32 @@ import java.util.Collection;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import com.lcomputerstudy.example.domain.LevelVO;
+import com.lcomputerstudy.example.domain.Pagination;
 import com.lcomputerstudy.example.domain.User;
 
 public interface UserService extends UserDetailsService {
-	//À¯ÀúÀĞ±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
 	public User readUser(String username);
 	
-	//À¯Àú»ı¼º
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void createUser(User user);
 	
-	//±ÇÇÑ»ı¼º
+	//ï¿½ï¿½ï¿½Ñ»ï¿½ï¿½ï¿½
 	public void createAuthorities(User user);
 	
-	//½ÃÅ¥¸®Æ¼ ±ÇÇÑ ¾ò±â
+	//ï¿½ï¿½Å¥ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	Collection<GrantedAuthority> getAuthorities(String username);
+	//ìœ ì € ë ˆë²¨ ì—…ë°ì´íŠ¸
+	public void levelupdate(User user);
+		
+	//ìœ ì € ë ˆë²¨
+	public void levelUser(LevelVO levelVO);
+		
+	//ìœ ì € ì„¸ê¸°
+	public int getUserCount();
+		
+	//ìœ ì €ë¦¬ìŠ¤íŠ¸
+	public List<User> getUser(Pagination pagination);
 }

@@ -26,7 +26,6 @@
 				    b_depth as bDepth
 	      FROM      lc_board
 	      <where>
-	      	<if test="searchVO != null">
 	      		<if test="searchVO.keyWord != null or searchVO.keyWord == 'none'">
 		      		<choose>		      	
 				      	<when test="searchVO.keyWord == 'title'">
@@ -43,7 +42,6 @@
 				      	</when>
 			      	</choose>
 		      	</if>
-		  	</if>
 	      </where>
 		 LIMIT	#{pageNum}, #{perPage}
 	</select>
@@ -79,7 +77,8 @@
 	        b_datetime,
 	        b_view,
 	        b_order,
-	        b_depth
+	        b_depth,
+	        f_name
 		) VALUES (
 	        #{bTitle},
 	        #{bContent},
@@ -87,7 +86,8 @@
 	        now(),
 	        0,
 	        1,
-	        0
+	        0,
+	        #{fName}
 	    )
 	    
 	    <selectKey keyProperty="bId" resultType="Integer" order="AFTER">
@@ -106,7 +106,8 @@
 				b_title as bTitle,
 				b_content as bContent,
 				b_writer as bWriter,
-				b_datetime as bDateTime
+				b_datetime as bDateTime,
+				f_name as fName
 		FROM	lc_board 
 		WHERE	b_id = #{bId}
 	</select>
@@ -128,7 +129,8 @@
 				 b_view as bView,
 				 b_order as bOrder,
 				 b_group as bGroup,
-				 b_depth as bDepth
+				 b_depth as bDepth,
+				 f_name as fName
 		FROM lc_board 
 		WHERE	b_id = #{bId}
 	</select>

@@ -7,6 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.lcomputerstudy.example.domain.LevelVO;
+import com.lcomputerstudy.example.domain.Pagination;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.mapper.UserMapper;
 
@@ -42,5 +45,25 @@ public class UserServiceImpl implements UserService {
 	   @Override
 	   public User readUser(String username) {
 	      return userMapper.readUser(username);
+	   }
+	   
+	   @Override
+	   public void levelupdate(User user) {
+		   userMapper.levelupdate(user);
+	   }
+		
+	   @Override
+	   public void levelUser(LevelVO levelVO) {
+		   userMapper.levelUser(levelVO);
+	   }
+		
+	   @Override
+	   public int getUserCount() {
+		   return userMapper.getUserCount();
+	   }
+		
+	   @Override
+	   public List<User> getUser(Pagination pagination) {
+		   return userMapper.getUser(pagination);
 	   }
 }
