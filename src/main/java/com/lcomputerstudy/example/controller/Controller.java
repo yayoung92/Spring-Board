@@ -41,7 +41,10 @@ public class Controller {
 	/*public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
 		this.passwordEncoder = passwordEncoder;
 	}*/
-	
+	@RequestMapping("/form")
+	public String form() {
+		return "/form";
+	}
 	@RequestMapping("/")
 	public String home(Model model) {
 		List<Board> list = boardservice.BoardList();
