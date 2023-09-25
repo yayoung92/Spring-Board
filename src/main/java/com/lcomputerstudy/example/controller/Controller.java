@@ -4,32 +4,28 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.Part;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lcomputerstudy.example.domain.Board;
 import com.lcomputerstudy.example.domain.User;
+import com.lcomputerstudy.example.domain.Files;
 import com.lcomputerstudy.example.domain.Comment;
 import com.lcomputerstudy.example.domain.LevelVO;
 import com.lcomputerstudy.example.domain.Pagination;
 import com.lcomputerstudy.example.domain.SearchVO;
 import com.lcomputerstudy.example.service.BoardService;
 import com.lcomputerstudy.example.service.UserService;
+import com.lcomputerstudy.example.service.FilesService;
 import com.lcomputerstudy.example.service.CommentService;
 
 @org.springframework.stereotype.Controller
@@ -38,6 +34,7 @@ public class Controller {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired UserService userservice;
 	@Autowired BoardService boardservice;
+	@Autowired FilesService filesservice;
 	@Autowired CommentService commentservice;
 	@Autowired PasswordEncoder passwordEncoder;
 	
@@ -145,9 +142,10 @@ public class Controller {
 	public String insert(Model model) {
 		return "/insert";
 	}
-	
+	//Part 이용한 파일 업로드
+	/*
 	@RequestMapping("/insertBoard")
-	public String insertBoard(Board board, @RequestParam("filename") Part part) throws IOException {
+	public String insertBoard(Board board, @RequestParam("filename") Part part){
 		
 		String filename = boardservice.getFilename(part);
 		try {
@@ -161,6 +159,20 @@ public class Controller {
 		boardservice.insertBoard(board);
 		int bId = board.getbId();
 		boardservice.groupUpdate(bId);
+		return "/insert-result";
+	}
+	*/
+	@RequestMapping("/insertBoard")
+	public String insertBoard(Board board, @RequestParam("files") MultipartFile[] file){
+		boardservice.insertBoard(board);
+		int bId = board.getbId();
+		boardservice.groupUpdate(bId);
+		
+		for(MultipartFile files : file) {
+			if(!files.isEmpty()) {
+				filesservice.uploadFile(file, bId);
+			}
+		}
 		return "/insert-result";
 	}
 	@RequestMapping("/list")
@@ -182,8 +194,10 @@ public class Controller {
 		boardservice.viewsBoard(bId);
 		Board board = boardservice.detailBoard(bId);
 		List<Comment> comment = commentservice.CommentList(bId);
+		List<Files> files = filesservice.FilesList(bId);
 		model.addAttribute("board", board);
 		model.addAttribute("comment", comment);
+		model.addAttribute("file", files);
 		return "/detail";
 	}
 	@RequestMapping("/update-view")
@@ -200,6 +214,7 @@ public class Controller {
 	@RequestMapping("/delete")
 	public String deleteBoard(@RequestParam("bId") int bId, Model model) {
 		boardservice.deleteBoard(bId);
+		filesservice.deleteFiles(bId);
 		return "/delete";
 	}
 	@RequestMapping("/reply-view")

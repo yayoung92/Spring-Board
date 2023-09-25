@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lcomputerstudy.example.mapper.FilesMapper">
+<!-- 파일 리스트 -->
+	<select id="FilesList">
+		SELECT	f_id as fId,
+				f_name as fName,
+				f_origin as fOrigin,
+				f_datetime as fDateTimem,
+				b_id as bId
+		FROM	lc_file
+		WHERE	b_id = #{bId}
+	</select>
+<!-- 파일 등록 -->
+	<insert id="insertFiles">
+		INSERT INTO lc_file (
+			f_id,
+			f_name,
+			f_origin,
+			f_datetime,
+			b_id
+		) VALUES (
+			#{fId},
+			#{fName},
+			#{fOrigin},
+			now(),
+			#{bId}
+		)
+		<selectKey keyProperty="fId" resultType="int" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+<!-- 게시글 삭제시 파일 삭제 -->
+	<delete id="deleteFiles" parameterType="Integer">
+		DELETE
+		FROM	lc_file
+		WHERE	b_id = #{bId}
+	</delete>
+<!-- 게시글 수정시 파일 삭제 -->
+	<delete id="selectdeleteFiles" parameterType="Integer">
+		DELETE
+		FROM	lc_file
+		WHERE	f_id = #{fId}
+	</delete>
+<!-- 파일 수정 -->
+	<update id="updateFiles" parameterType="Files">
+		UPDATE	lc_file
+		SET		f_name = #{fName},
+				f_origin = #{fOrigin},
+				f_datetiem = now(),
+				b_id = #{bId}
+		WHERE	f_id = #{fId}
+	</update>
+<!-- 파일 선택 -->
+	<select id="getFiles" parameterType="Integer" resultType="Files">
+		SELECT	f_id as fId,
+				f_name as fName,
+				f_origin as fOrigin,
+				f_datetime as fDateTime,
+				b_id as bId
+		FROM	lc_file
+		WHERE	b_id = #{bId}
+	</select>
+</mapper>

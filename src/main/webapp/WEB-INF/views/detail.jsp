@@ -50,12 +50,14 @@
 			<tr>
 				<td>날짜</td>	
 				<td>${board.bDateTime}</td>
-			</tr>
-			<tr>
-				<td>이미지</td>
-				<td><img alt="${board.fName }" src="/img/${board.fName }"></td>
 			</tr>				
 		</table>
+	<h3>이미지</h3>
+	<div>
+		<c:forEach items="${file }" var="file">
+			<img alt="${file.fName }" src="/img/${file.fName }"><br>
+		</c:forEach>
+	</div>
 	<div>
 		<a href="/list"><input type="button" value="돌아가기"></a>
 		<c:choose>
